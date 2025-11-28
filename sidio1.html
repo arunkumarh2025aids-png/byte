@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LapCompare</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: url("https://images.unsplash.com/photo-1517336714731-489689fd1ca8") no-repeat center/cover;
+            padding: 20px;
+            color:white;
+        }
+        .box {
+            background: rgba(0,0,0,0.6);
+            padding: 20px;
+            border-radius: 10px;
+            width: 350px;
+            margin: auto;
+        }
+        select, button {
+            width: 100%; padding: 10px; margin-top: 10px;
+        }
+        table {
+            width: 100%; background: white; color: black; margin-top: 20px;
+            border-collapse: collapse;
+        }
+        td, th { border: 1px solid #333; padding: 8px; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2> Laptop Comparison</h2>
+
+    <select id="l1">
+        <option value="0">Dell XPS</option>
+        <option value="1">HP Pavilion</option>
+        <option value="2">MacBook Air</option>
+    </select>
+
+    <select id="l2">
+        <option value="1">HP Pavilion</option>
+        <option value="0">Dell XPS</option>
+        <option value="2">MacBook Air</option>
+    </select>
+
+    <button onclick="compare()">Compare</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    const USD_TO_INR = 83; // Conversion rate
+
+    const laptops = [
+        {
+            name: "Dell XPS",
+            ram: "16GB",
+            cpu: "Intel i7",
+            storage: "512GB SSD",
+            battery: "10 hours",
+            display: "13.4 inch",
+            priceUSD: 1200
+        },
+        {
+            name: "HP Pavilion",
+            ram: "8GB",
+            cpu: "Intel i5",
+            storage: "1TB HDD",
+            battery: "7 hours",
+            display: "15.6 inch",
+            priceUSD: 700
+        },
+        {
+            name: "MacBook Air",
+            ram: "16GB",
+            cpu: "Apple M2",
+            storage: "256GB SSD",
+            battery: "15 hours",
+            display: "13.3 inch",
+            priceUSD: 1400
+        }
+    ];
+
+    function compare(){
+        let a = document.getElementById("l1").value;
+        let b = document.getElementById("l2").value;
+
+        if(a === b){
+            alert("Choose two different laptops!");
+            return;
+        }
+
+        let L1 = laptops[a], L2 = laptops[b];
+
+        // Convert USD to INR
+        let L1_priceINR = "₹" + (L1.priceUSD * USD_TO_INR).toLocaleString();
+        let L2_priceINR = "₹" + (L2.priceUSD * USD_TO_INR).toLocaleString();
+
+        document.getElementById("result").innerHTML = `
+            <table>
+                <tr><th>Feature</th><th>${L1.name}</th><th>${L2.name}</th></tr>
+                <tr><td>RAM</td><td>${L1.ram}</td><td>${L2.ram}</td></tr>
+                <tr><td>CPU</td><td>${L1.cpu}</td><td>${L2.cpu}</td></tr>
+                <tr><td>Storage</td><td>${L1.storage}</td><td>${L2.storage}</td></tr>
+                <tr><td>Battery Life</td><td>${L1.battery}</td><td>${L2.battery}</td></tr>
+                <tr><td>Display Size</td><td>${L1.display}</td><td>${L2.display}</td></tr>
+                <tr><td>Price (INR)</td><td>${L1_priceINR}</td><td>${L2_priceINR}</td></tr>
+            </table>
+        `;
+    }
+</script>
+</body>
+</html>
